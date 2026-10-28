@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101b2d"><title>SmartPark — Parking Management</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><div class="brand-icon">P</div><div><strong>SmartPark</strong><span>Parking Management</span></div></div>
+    <div class="header-meta"><div><span class="live-dot"></span> Simulation active</div><time id="clock">Loading time…</time><button id="resetBtn" class="button button-outline">Reset simulation</button></div>
+  </header>
+  <main class="container">
+    <section class="hero"><div><p class="eyebrow">DATA STRUCTURES &amp; ALGORITHMS</p><h1>Stack-based vehicle parking</h1><p class="muted">A practical demonstration of the Last In, First Out (LIFO) principle.</p></div><div class="hero-mark" aria-hidden="true">↕</div></section>
+    <section class="stats" aria-label="Parking statistics">
+      <article class="stat-card"><span class="stat-label">Total capacity</span><strong id="capacityStat">8</strong><span class="stat-foot">Configured spaces</span></article>
+      <article class="stat-card"><span class="stat-label">Vehicles parked</span><strong id="parkedStat">0</strong><span class="stat-foot">Currently inside</span></article>
+      <article class="stat-card"><span class="stat-label">Available spaces</span><strong id="availableStat">8</strong><span class="stat-foot">Ready for entry</span></article>
+      <article class="stat-card"><span class="stat-label">Vehicles departed</span><strong id="departedStat">0</strong><span class="stat-foot">Completed exits</span></article>
+    </section>
+    <div id="notice" class="notice" role="status" aria-live="polite">Welcome to SmartPark. Park a vehicle to begin.</div>
+    <section class="workspace">
+      <article class="panel parking-panel"><div class="panel-heading"><div><p class="eyebrow">LIVE VIEW</p><h2>Parking lot</h2></div><span id="lotStatus" class="status-pill">8 spaces available</span></div>
+        <div class="parking-visual"><div class="lane-label">ENTRY / EXIT LANE</div><div id="parkingGrid" class="parking-grid"></div><div class="lane-bottom"><span>← ENTRY</span><span>EXIT →</span></div></div>
+        <div class="legend"><span><i class="legend-dot free"></i> Available</span><span><i class="legend-dot occupied"></i> Occupied</span><span><i class="legend-dot moving"></i> Temporarily moving</span></div>
+      </article>
+      <article class="panel form-panel"><div class="panel-heading"><div><p class="eyebrow">VEHICLE INTAKE</p><h2>Park a vehicle</h2></div><span class="icon-badge">＋</span></div>
+        <form id="entryForm"><label for="registration">Registration number <b>*</b></label><input id="registration" name="registration" maxlength="16" placeholder="e.g. GR-1234-24" required autocomplete="off"><div class="form-row"><div><label for="owner">Owner name <b>*</b></label><input id="owner" name="owner" maxlength="60" placeholder="Full name" required></div><div><label for="model">Vehicle model</label><input id="model" name="model" maxlength="40" placeholder="e.g. Corolla"></div></div><label for="color">Vehicle colour</label><select id="color" name="color"><option value="Silver">Silver</option><option value="Black">Black</option><option value="White">White</option><option value="Blue">Blue</option><option value="Red">Red</option><option value="Green">Green</option><option value="Gold">Gold</option></select><button class="button button-primary full" type="submit">＋ Park vehicle <span>Push to stack</span></button></form>
+        <div class="divider"></div><div class="panel-heading compact"><div><p class="eyebrow">VEHICLE EXIT</p><h2>Request departure</h2></div></div>
+        <label for="exitSelect">Select a parked vehicle</label><select id="exitSelect"><option value="">No vehicles parked</option></select><p id="exitInfo" class="helper">Choose a vehicle to see its stack position.</p><button id="departBtn" class="button button-dark full" disabled>Depart selected vehicle <span>Pop / relocate</span></button>
+      </article>
+    </section>
+    <section class="lower-grid">
+      <article class="panel stack-panel"><div class="panel-heading"><div><p class="eyebrow">DATA STRUCTURE</p><h2>Parking stack — LIFO</h2><p class="muted small">The top vehicle is the next one that can leave directly.</p></div><span class="stack-count" id="stackCount">0 / 8</span></div><div class="stack-frame"><div class="stack-side-label"><span>TOP</span><span class="stack-arrow">↓</span><span>BOTTOM</span></div><div id="stackView" class="stack-view"><div class="empty-stack">Stack is empty<br><small>Park a vehicle to push the first item.</small></div></div></div>
+        <div class="operation-controls"><button id="pushBtn" class="op-button"><b>PUSH</b><span>Add vehicle</span></button><button id="popBtn" class="op-button"><b>POP</b><span>Remove top</span></button><button id="peekBtn" class="op-button"><b>PEEK</b><span>Inspect top</span></button><button id="emptyBtn" class="op-button"><b>ISEMPTY</b><span>Check stack</span></button><button id="fullBtn" class="op-button"><b>ISFULL</b><span>Check capacity</span></button></div>
+        <div class="search-row"><div><label for="searchInput">Search vehicle</label><input id="searchInput" placeholder="Enter registration number" autocomplete="off"></div><button id="searchBtn" class="button button-outline">Search</button></div>
+      </article>
+      <article class="panel activity-panel"><div class="panel-heading"><div><p class="eyebrow">AUDIT TRAIL</p><h2>Activity log</h2></div><button id="clearLogBtn" class="text-button">Clear log</button></div><div id="activityLog" class="activity-log"><div class="log-empty">No activity yet. Operations will appear here.</div></div></article>
+    </section>
+    <section class="panel education"><div class="panel-heading"><div><p class="eyebrow">LEARN BY DOING</p><h2>How the stack works</h2></div><span class="lifo-chip">LIFO · Last In, First Out</span></div><div class="education-grid"><div><h3>What is a stack?</h3><p>A stack is a linear data structure that follows the <strong>Last In, First Out</strong> principle. Think of a pile of trays: you add and remove items from the top.</p></div><div><h3>SmartPark's stack</h3><p>Each arriving vehicle is added with <code>push()</code>. The newest vehicle sits at the top and can leave using <code>pop()</code>. <code>peek()</code> inspects the top without removing it.</p></div><div><h3>What if a vehicle is underneath?</h3><p>A standard stack cannot remove an item from the middle directly. SmartPark temporarily pops vehicles above the target, removes the target, then pushes the displaced vehicles back in their original order.</p></div></div><div class="complexity"><h3>Operation complexity</h3><div class="complexity-items"><span><b>push / pop / peek</b><code>O(1)</code></span><span><b>isEmpty / isFull / size</b><code>O(1)</code></span><span><b>find</b><code>O(n)</code></span><span><b>Arbitrary departure</b><code>O(n)</code></span></div></div><div class="demo"><div><span class="eyebrow">QUICK LIFO DEMO</span><p id="demoText">Add three demo blocks to see LIFO in action.</p></div><div id="demoBlocks" class="demo-blocks"></div><div class="demo-actions"><button id="demoPush" class="button button-primary">Push demo item</button><button id="demoPop" class="button button-outline">Pop demo top</button><button id="demoReset" class="text-button">Reset demo</button></div></div></section>
+    <footer><span>SmartPark <b>DSA Project</b></span><span>Built to demonstrate real stack operations · State saved locally</span></footer>
+  </main>
+  <script src="js/stack.js"></script><script src="js/parking.js"></script><script src="js/ui.js"></script><script src="js/app.js"></script>
+</body></html>
